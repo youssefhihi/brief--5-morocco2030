@@ -22,15 +22,18 @@ $groups_result = mysqli_query($cnc, $groups);
      <div id="popup"
       class="fixed w-full h-full top-0 left-0  items-center flex justify-center bg-black bg-opacity-50 hidden z-20">
       <!-- Popup content -->
-      <div id="myPopup" class="bg-white w-9/12 h-[50vh] flex flex-col justify-start items-center gap-4 overflow-y-auto md:h-fit">
-      <h4 id="nomEquipe" class="font-sans font-semibold"></h4>
-            <p id="continentEquipe"></p>
-            <p id="ordreFifa"></p>
+      <div id="myPopup" class="bg-white w-72 pb-10 pt-10  flex flex-col justify-start items-center gap-4 overflow-y-auto md:h-fit">
+        <img id="imgEquipe"  >
+      <h4 id="nomEquipe" class=" font-sans font-semibold"></h4>
+      <p id="capitalEquipe" ></p>
+            <p id="continentEquipe"  ></p>
+            <p id="ordreFifa"  ></p>
       </div>
     </div>
     <!-- End of Popup -->
 
-    <div class="text-center mt-7">
+    <div class="text-center flex mt-7">
+        <img src="images/logo.png" alt="">
         <h1 class="font-semibold text-3xl"> le calendrier officiel des groupes de FIFA World Cup <span class="text-red-600">Morocco 2030</span>.</h1>
     </div>
     <form action="" method="post">
@@ -43,7 +46,7 @@ $groups_result = mysqli_query($cnc, $groups);
                 $nom_group = $groups_row["nom_group"];
         ?>
          <button name="group" value="<?php echo $group_id; ?>"
-                class="filter-button bg-white border rounded-xl border-green-500 text-green-500 h-14 w-28 hover:bg-green-400 ease-in-out duration-300 hover:text-white active:bg-green-400"><?php echo $nom_group; ?></button>
+                class="filter-button bg-white border rounded-xl border-green-500 text-green-500 h-14 w-28 hover:bg-green-400 ease-in-out duration-300 hover:text-white focus:bg-green-400 active:text-red clicked"  onclick="handleButtonClick(this)"><?php echo $nom_group; ?></button>
             <?php
             }
             ?>
@@ -55,7 +58,18 @@ $groups_result = mysqli_query($cnc, $groups);
         $grp = "SELECT * FROM equipe WHERE groupe_id = $selected_group_id";
         $grp_result = mysqli_query($cnc, $grp);
     ?>
-    <div class=" grid grid-cols-4 pl-36  bg-white shadow-md rounded-md W-96 hover:shadow-lg ">
+    <div class=" grid grid-cols-1 px-10  bg-white shadow-md rounded-md W-96 hover:shadow-lg ">
+        <table class="table-auto border-separate border-spacing-2 border border-slate-400">
+        <thead >
+        <tr >
+            <th  class="border border-slate-300">Drapeau</th>
+            <th  class="border border-slate-300">Nom</th>
+            <th class="border border-slate-300">Continent</th>
+            <th class="border border-slate-300">Ordre FIFA</th>
+         </tr>
+        </thead>
+        <tbody>
+            <tr>
     
     
         <?php
@@ -69,17 +83,18 @@ $groups_result = mysqli_query($cnc, $groups);
             $continent = $grp_row["continent_equipe"];
             $ordre_fifa = $grp_row["ordre_fifa"];
         
-            echo '<div class="flex flex-col gap-5">';
-            echo "<img src=\"$src\" alt=\"\" class=\"w-14  \">";
-            echo '<h4 class="font-sans font-somibold">' . $nom . '</h4>';
-            echo '<h4 class="font-sans font-somibold">' . $continent . '</h4>';
-            echo '<h4 class="font-sans font-somibold">' . $ordre_fifa . '</h4>';
-            echo '</div>';
+            echo '<div class="flex  gap-5">';
+            echo "<td> <img src=\"$src\" alt=\"\" class=\"w-14\"></td>";
+            echo '<td> <h4 class="font-sans font-somibold border border-slate-300">' . $nom . '</h4> </td>';
+            echo '<td> <h4 class="font-sans font-somibold border border-slate-300">' . $continent . '</h4> </td>';
+            echo '<td> <h4 class="font-sans font-somibold border border-slate-300">' . $ordre_fifa . '</h4> </td>';
+            echo '</div></tbody></tr>';
         
        
         }
-        
+    echo '</table>' ;   
     echo'</div>';
+    
     
     echo'<div id="allgroups" >';
     
@@ -102,10 +117,12 @@ $groups_result = mysqli_query($cnc, $groups);
             $src = $equipe_row["drapeau_equipe"];
             $nom = $equipe_row["nom_equipe"];   
             $continent = $equipe_row["continent_equipe"]; 
-            $ordre_fifa = $equipe_row["ordre_fifa"]; 
+            $ordre_fifa = $equipe_row["ordre_fifa"];
+            $capital = $equipe_row["capital_equipe"]; 
             
-            echo '<img src="'. $src . '" alt="" class="w-14 cursor-pointer" onclick="openPopup(\'' . $nom . '\', \'' . $continent . '\', \'' . $ordre_fifa .  '\')">';
-           echo '<h4 class="font-sans font-somiboldcursor-pointer" onclick="openPopup(\'' . $nom . '\', \'' . $continent . '\', \'' . $ordre_fifa . '\')">' . $nom .'</h4>';
+            echo '<img src="'. $src . '" alt="" class="w-14 cursor-pointer" onclick="openPopup(\'' . $src . '\',\'' . $nom . '\',\'' . $continent . '\',\''. $capital . ' \',  \'' . $ordre_fifa .  '\')">';
+
+            echo '<h4 class="font-sans font-somiboldcursor-pointer" onclick="openPopup(\'' . $src . '\',\'' . $nom . '\', \'' . $continent . '\',\''. $capital . ' \', \'' . $ordre_fifa . '\')">' . $nom .'</h4>';
           
          
         }
@@ -129,10 +146,12 @@ echo' </div>';
 
 <script>
     // Open the popup
-    function openPopup(nom, continent, ordreFifa) {
+    function openPopup(img, nom, continent,capital, ordreFifa) {
+            document.getElementById("imgEquipe").src = img;
             document.getElementById("nomEquipe").innerText = nom;
-            document.getElementById("continentEquipe").innerText = continent;
-            document.getElementById("ordreFifa").innerText = ordreFifa;
+            document.getElementById("continentEquipe").innerText = "continent : " + continent;
+            document.getElementById("capitalEquipe").innerText = "capital : " + capital;
+            document.getElementById("ordreFifa").innerText = "Classement FIFA : " + ordreFifa;
             document.getElementById("popup").classList.remove("hidden");
     }
   
@@ -151,7 +170,12 @@ function remove() {
     }
 }
 </script>
-
+<script>
+  function handleButtonClick(button) {
+    
+    button.classList.add('clicked');
+  }
+    </script>
 </body>
 
 </html>
