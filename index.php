@@ -32,9 +32,9 @@ $groups_result = mysqli_query($cnc, $groups);
     </div>
     <!-- End of Popup -->
 
-    <div class="text-center flex mt-7">
-        <img src="images/logo.png" alt="">
-        <h1 class="font-semibold text-3xl"> le calendrier officiel des groupes de FIFA World Cup <span class="text-red-600">Morocco 2030</span>.</h1>
+    <div class="text-center flex space-x-20 ">
+        <img src="../images/logo.png" alt="" height="50px" width="150px">
+        <h1 class="font-semibold text-3xl pt-10"> le calendrier officiel des groupes de FIFA World Cup <span class="text-red-600">Morocco 2030</span>.</h1>
     </div>
     <form action="" method="post">
     <div class="mt-2 h-28 flex space-x-5  justify-around pt-8 ">
@@ -58,7 +58,7 @@ $groups_result = mysqli_query($cnc, $groups);
         $grp = "SELECT * FROM equipe WHERE groupe_id = $selected_group_id";
         $grp_result = mysqli_query($cnc, $grp);
     ?>
-    <div class=" grid grid-cols-1 px-10  bg-white shadow-md rounded-md W-96 hover:shadow-lg ">
+    <div class=" grid grid-cols-1 px-10  bg-white shadow-md rounded-md W-96 hover:shadow-black mb-10 ">
         <table class="table-auto border-separate border-spacing-2 border border-slate-400">
         <thead >
         <tr >
@@ -108,7 +108,7 @@ $groups_result = mysqli_query($cnc, $groups);
         $stade = $groups_row2["stade"];
 
         
-        echo '<div class="flex flex-col  bg-white p-4 shadow-md rounded-md w-72   ">';
+        echo '<div class="flex flex-col  bg-white p-4 shadow-md rounded-md w-72 hover:shadow-black  ">';
         echo '<h3 class="text-lg font-semibold mb-2  text-center underline">' . $nom_group . '</h3>';
         echo '<div class="w-full grid grid-rows-2 grid-cols-2 justify-around">';
         $equipe = "SELECT * FROM equipe WHERE groupe_id = $id";
@@ -141,7 +141,7 @@ echo' </div>';
     
     </div>
 
-    
+ 
     
 
 <script>
